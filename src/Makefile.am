@@ -18,7 +18,7 @@ dosbox_LDADD = cpu/libcpu.a debug/libdebug.a dos/libdos.a fpu/libfpu.a  hardware
 EXTRA_DIST = winres.rc dosbox.ico
 
 if EMSCRIPTEN_BUILD
-dosbox_LDFLAGS=-s TOTAL_MEMORY=134217728 -s ALLOW_MEMORY_GROWTH=0
+dosbox_LDFLAGS=-s TOTAL_MEMORY=134217728 -s ALLOW_MEMORY_GROWTH=0 -s FORCE_FILESYSTEM=1 -s "BINARYEN_TRAP_MODE='js'"
 CLEANFILES=dosbox.js dosbox.html.mem dosbox.js.orig.js dosbox.js.tmp.js
 if EMTERPRETER
 dosbox_LDFLAGS+=-s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1 -s EMTERPRETIFY_WHITELIST=@emterpretify.txt -s FETCH=1
@@ -36,4 +36,4 @@ endif
 # https://stackoverflow.com/questions/1779984/header-dependency-in-automake
 BUILT_SOURCES=version.stamp
 version.stamp:
-	python version.py ../include/version.h .. $(CXX)
+	python version.py ../include/version.h .. "$(CXX)"
